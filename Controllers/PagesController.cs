@@ -7,33 +7,47 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DotJournal.Data;
 using DotJournal.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace DotJournal.Controllers
 {
     [Authorize]
-    public class BooksController : Controller
+    public class PagesController : Controller
     {
         private readonly JournalDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
 
-        public BooksController(JournalDbContext context, UserManager<IdentityUser> userManager)
+        public PagesController(JournalDbContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
-        // GET: Books
-        public async Task<IActionResult> Index()
+        // GET: Pages
+        public async Task<IActionResult> Index(int? id)//int? id
         {
-            var userIdDynamic = await GetCurrentUserAsync();
-            return View(await _context.books
-                .Where(b => b.userId == userIdDynamic.Id)
+            var pages = _context.pages.Include(p => p.book);
+            if (id == null)
+            {
+            
+                return View(await pages
                 .ToListAsync());
+               
+            }
+            else
+            {
+                ViewData["id"] = id;
+                //ViewData["colour"] = await journalDbContext.Where(p => p.bookId == id);
+                var page = await pages
+                                .Where(p => p.bookId == id)
+                                .ToListAsync();
+                
+                return View(page);
+            }
+            //var journalDbContext = _context.pages.Include(p => p.book);
+            
         }
 
-        // GET: Books/Details/5
+        // GET: Pages/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -41,42 +55,42 @@ namespace DotJournal.Controllers
                 return NotFound();
             }
 
-            var book = await _context.books
+            var page = await _context.pages
+                .Include(p => p.book)
                 .FirstOrDefaultAsync(m => m.id == id);
-            if (book == null)
+            if (page == null)
             {
                 return NotFound();
             }
 
-            return View(book);
+            return View(page);
         }
 
-        // GET: Books/Create
-        public async Task<IActionResult> Create()
+        // GET: Pages/Create
+        public IActionResult Create(int id)
         {
-            var user = await GetCurrentUserAsync();
-            ViewData["userId"] = user.Id; 
+            ViewData["bookId"] = new SelectList(_context.books, "id", "title",id);
             return View();
         }
 
-        // POST: Books/Create
+        // POST: Pages/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,userId,title,colour,dateCreated,dateUpdated")] Book book)
+        public async Task<IActionResult> Create([Bind("title,pageNum,content,bookId,dateCreated,dateUpdated")] Page page, int id)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(book);
+                _context.Add(page);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-
+                return RedirectToAction(nameof(Index), new { id = id });
             }
-            return View(book);
+            ViewData["bookId"] = new SelectList(_context.books, "id", "title", page.bookId);
+            return View(page);
         }
 
-        // GET: Books/Edit/5
+        // GET: Pages/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,22 +98,23 @@ namespace DotJournal.Controllers
                 return NotFound();
             }
 
-            var book = await _context.books.FindAsync(id);
-            if (book == null)
+            var page = await _context.pages.FindAsync(id);
+            if (page == null)
             {
                 return NotFound();
             }
-            return View(book);
+            ViewData["bookId"] = new SelectList(_context.books, "id", "title", page.bookId);
+            return View(page);
         }
 
-        // POST: Books/Edit/5
+        // POST: Pages/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,userId,title,colour,dateCreated,dateUpdated")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("id,title,pageNum,content,bookId,dateCreated,dateUpdated")] Page page)
         {
-            if (id != book.id)
+            if (id != page.id)
             {
                 return NotFound();
             }
@@ -108,12 +123,12 @@ namespace DotJournal.Controllers
             {
                 try
                 {
-                    _context.Update(book);
+                    _context.Update(page);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookExists(book.id))
+                    if (!PageExists(page.id))
                     {
                         return NotFound();
                     }
@@ -124,10 +139,11 @@ namespace DotJournal.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(book);
+            ViewData["bookId"] = new SelectList(_context.books, "id", "title", page.bookId);
+            return View(page);
         }
 
-        // GET: Books/Delete/5
+        // GET: Pages/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,34 +151,31 @@ namespace DotJournal.Controllers
                 return NotFound();
             }
 
-            var book = await _context.books
+            var page = await _context.pages
+                .Include(p => p.book)
                 .FirstOrDefaultAsync(m => m.id == id);
-            if (book == null)
+            if (page == null)
             {
                 return NotFound();
             }
 
-            return View(book);
+            return View(page);
         }
 
-        // POST: Books/Delete/5
+        // POST: Pages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var book = await _context.books.FindAsync(id);
-            _context.books.Remove(book);
+            var page = await _context.pages.FindAsync(id);
+            _context.pages.Remove(page);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BookExists(int id)
+        private bool PageExists(int id)
         {
-            return _context.books.Any(e => e.id == id);
-        }
-        private Task<IdentityUser> GetCurrentUserAsync()
-        {
-            return _userManager.GetUserAsync(HttpContext.User);
+            return _context.pages.Any(e => e.id == id);
         }
     }
 }

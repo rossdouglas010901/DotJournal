@@ -1,31 +1,35 @@
-﻿@model IEnumerable<DotJournal.Models.Book>
+﻿@model IEnumerable<DotJournal.Models.Page>
 
 @{
     ViewData["Title"] = "Index";
+    var id = ViewData["id"];
 }
 
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-route-id="@id" asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.userId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.colour)
+                @Html.DisplayNameFor(model => model.pageNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.content)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.dateCreated)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.dateUpdated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.book)
             </th>
             <th></th>
         </tr>
@@ -34,13 +38,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.userId)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.colour)
+                @Html.DisplayFor(modelItem => item.pageNum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.content)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.dateCreated)
@@ -49,10 +53,12 @@
                 @Html.DisplayFor(modelItem => item.dateUpdated)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.book.colour)
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a> | 
-                <a asp-action="Index" asp-controller="Pages" asp-route-id="@item.id">Pages</a>
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
             </td>
         </tr>
 }

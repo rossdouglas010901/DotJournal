@@ -1,0 +1,46 @@
+﻿@model IEnumerable<DotJournal.Models.Page>
+
+@{
+    ViewData["Title"] = "Index";
+    var id = ViewData["id"];
+}
+<a asp-route-id="@id" asp-action="Create">Create New</a>
+<div class="row">
+    <div class="md-col-2">
+        @foreach (var item in Model)
+        {
+            <button onclick="articleHide(@Html.DisplayFor(modelItem => item.id))">@Html.DisplayFor(modelItem => item.title)</button><br/>
+        }
+    </div>
+    <div class="md-col-10">
+        @foreach (var item in Model)
+        {
+            <article class="articleHide" id="article-@Html.DisplayFor(modelItem => item.id)">
+                <h3 style="color:#@Html.DisplayFor(modelItem => item.book.colour);">@Html.DisplayFor(modelItem => item.title)</h3>
+                <p>@Html.DisplayFor(modelItem => item.content)</p>
+            </article>
+        }
+    </div>
+</div>
+        
+
+@section CSS{
+    <style>
+        article {
+            display: none;
+        }
+    </style>
+}
+
+@section Scripts{
+    <script>
+        function articleHide(id) {
+            target = "article-" + id;
+            var divsToHide = document.getElementsByClassName("articleHide"); //divsToHide is an array
+            for (var i = 0; i < divsToHide.length; i++) {
+                divsToHide[i].style.display = "none"; // depending on what you're doing
+            }
+            document.getElementById(target).style.display = "block";
+        }
+    </script>
+}
