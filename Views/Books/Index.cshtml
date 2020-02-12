@@ -7,54 +7,66 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus"></i> Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.userId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.colour)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.dateCreated)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.dateUpdated)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.userId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.colour)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.dateCreated)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.dateUpdated)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a> | 
-                <a asp-action="Index" asp-controller="Pages" asp-route-id="@item.id">Pages</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="shelfGrid">
+    @foreach (var item in Model)
+    {
+    <div class="bookContainer">
+        <div class="book"
+             onclick="window.location='/Pages/Index/@item.id';"
+             style="background-color:#@Html.DisplayFor(modelItem => item.colour)">
+            <h2>@Html.DisplayFor(modelItem => item.title)</h2>
+        </div>
+        <br/>
+        <a asp-action="Edit" asp-route-id="@item.id"><i class="fas fa-pencil-alt fas-green"></i></a> | 
+        <a asp-action="Delete" asp-route-id="@item.id"><i class="far fa-trash-alt fas-red"></i></a>
+    </div>
+    }
+</div>
+    @section CSS{
+        <style>
+            .book {
+                text-align: center;
+                border: 10px double #ffffff;
+                width: 10rem;
+                height: 15rem;
+                margin: 1rem;
+                color: #ffffff;
+                cursor: pointer;
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+                transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+                padding: 1rem;
+                overflow: hidden;
+                display: inline-block; 
+                margin: 0 auto;
+            }
+
+            .a {
+                text-decoration: none;
+            }
+
+            .book:hover {
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            }
+
+            .shelfGrid {
+                display: Grid;
+                grid-template-columns: auto auto auto auto;
+            }
+
+            .bookContainer{
+                text-align: center;
+                padding-left: auto;
+                padding-right: auto;
+            }
+
+            .fas-red{
+                color: #dc3545;
+            }
+
+            .fas-green{
+                color: #28a745;
+            }
+        </style>
+    }

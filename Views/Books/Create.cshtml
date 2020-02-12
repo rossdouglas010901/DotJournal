@@ -9,8 +9,6 @@
 
 <h4>Book</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="userId" value="@userId"  />
@@ -20,21 +18,103 @@
                 <span asp-validation-for="userId" class="text-danger"></span>
             </div>*@
             <div class="form-group">
-                <label asp-for="title" class="control-label"></label>
-                <input asp-for="title" class="form-control" />
+                <input asp-for="title" placeholder="Title" class="form-control" />
                 <span asp-validation-for="title" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="colour" class="control-label"></label>
                 <input asp-for="colour" class="form-control" />
                 <span asp-validation-for="colour" class="text-danger"></span>
-            </div>
+            </div>*@
+        <div class="form-group">
+
+            <input type="radio" asp-for="colour" value="000000" id="black" />
+            <label for="black" style="color:#000000">Black</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="fad390" id="flatFlesh" />
+            <label for="flatFlesh" style="color:#fad390">Flat Flesh</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="f6b93b" id="squashBlossom" />
+            <label for="squashBlossom" style="color:#f6b93b">Squash Blossom</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="fa983a" id="icelandPoppy" />
+            <label for="icelandPoppy" style="color:#fa983a">Iceland Poppy</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="e58e26" id="carrotOrange" />
+            <label for="carrotOrange" style="color:#e58e26">Carrot Orange</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="f8c291" id="melonMelody" />
+            <label for="melonMelody" style="color:#f8c291">Melon Melody</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="e55039" id="mandarinRed" />
+            <label for="mandarinRed" style="color:#e55039">Mandarin Red</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="eb2f06" id="tomatoRed" />
+            <label for="tomatoRed" style="color:#eb2f06">Tomato Red</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="b71540" id="jalapenoRed" />
+            <label for="jalapenoRed" style="color:#b71540">Jalapeno Red</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="6a89cc" id="livid" />
+            <label for="livid" style="color:#6a89cc">Livid</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="4a69bd" id="azraqBlue" />
+            <label for="azraqBlue" style="color:#4a69bd">Azraq Blue</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="1e3799" id="yueGuangLanBlue" />
+            <label for="yueGuangLanBlue" style="color:#1e3799">Yue Guang Lan Blue</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="0c2461" id="darkSapphire" />
+            <label for="darkSapphire" style="color:#0c2461">Dark Sapphire</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="82ccdd" id="spray" />
+            <label for="spray" style="color:#82ccdd">Spray</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="60a3bc" id="dupain" />
+            <label for="dupain" style="color:#60a3bc">Dupain</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="3c6382" id="goodSamaritan" />
+            <label for="goodSamaritan" style="color:#3c6382">Good Samaritan</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="0a3d62" id="forestBlues" />
+            <label for="forestBlues" style="color:#0a3d62">Forest Blues</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="b8e994" id="forrestGreen" />
+            <label for="forrestGreen" style="color:#b8e994">Forrest Green</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="78e08f" id="auroraGreen" />
+            <label for="auroraGreen" style="color:#78e08f">Aurora Green</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="38ada9" id="waterfall" />
+            <label for="waterfall" style="color:#38ada9">Waterfall</label>
+            <br />
+
+            <input type="radio" asp-for="colour" value="079992" id="reefEncounter" />
+            <label for="reefEncounter" style="color:#079992">Reef Encounter</label>
+        </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
-    </div>
-</div>
 
 <div>
     <a asp-action="Index">Back to List</a>

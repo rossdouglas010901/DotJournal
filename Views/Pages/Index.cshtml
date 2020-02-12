@@ -4,33 +4,46 @@
     ViewData["Title"] = "Index";
     var id = ViewData["id"];
 }
-<a asp-route-id="@id" asp-action="Create">Create New</a>
-<div class="row">
-    <div class="md-col-2">
-        @foreach (var item in Model)
-        {
-            <button onclick="articleHide(@Html.DisplayFor(modelItem => item.id))">@Html.DisplayFor(modelItem => item.title)</button><br/>
-        }
-    </div>
-    <div class="md-col-10">
-        @foreach (var item in Model)
-        {
-            <article class="articleHide" id="article-@Html.DisplayFor(modelItem => item.id)">
-                <h3 style="color:#@Html.DisplayFor(modelItem => item.book.colour);">@Html.DisplayFor(modelItem => item.title)</h3>
-                <p>@Html.DisplayFor(modelItem => item.content)</p>
-            </article>
-        }
-    </div>
-</div>
-        
-
-@section CSS{
-    <style>
-        article {
-            display: none;
-        }
-    </style>
+@if (Model.Count() == 0)
+{
+    <text>
+        <h1>You have no Pages, Try and create One</h1>
+        <a class="btn btn-primary" asp-route-id="@id" asp-action="Create">New Page</a>
+    </text>
 }
+else
+{
+    <text>
+        <h1 class="my-5 pageTitle" style="border-bottom:5px solid #@Html.DisplayFor(modelItem => Model.First().book.colour)"> @Model.First().book.title</h1>
+        <div class="row">
+            <div class="col-2 book-left">
+                <a style="background-color:#@Html.DisplayFor(modelItem => Model.First().book.colour);" asp-route-id="@id" asp-action="Create">New Page</a>
+    </text>
+}
+@foreach (var item in Model)
+{
+    <hr />
+    <button onclick="articleHide(@Html.DisplayFor(modelItem => item.id))">@Html.DisplayFor(modelItem => item.title)</button><br />
+}
+</div>
+<div class="col-9">
+    @foreach (var item in Model)
+    {
+        <article class="articleHide" id="article-@Html.DisplayFor(modelItem => item.id)">
+
+            <h2 style="color:#@Html.DisplayFor(modelItem => item.book.colour);"> @Html.DisplayFor(modelItem => item.title)</h2>
+
+            <h6 class="dates">Created on: @Html.DisplayFor(modelItem => item.dateCreated)</h6>
+            <h6 class="dates">Updated on: @Html.DisplayFor(modelItem => item.dateUpdated)</h6>
+
+            <p>@Html.DisplayFor(modelItem => item.content)</p>
+
+            <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.id">Delete</a>
+            <a asp-action="Edit" class="btn btn-dark" style="border:none;background-color:#@Html.DisplayFor(modelItem => item.book.colour);" asp-route-id="@item.id">Edit</a>
+        </article>
+    }
+</div>
+</div>
 
 @section Scripts{
     <script>

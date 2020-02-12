@@ -4,48 +4,65 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<h1 style="color:#@Html.DisplayFor(model => model.colour);">Delete @Html.DisplayFor(model => model.title)?</h1>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Book</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.userId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.userId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.colour)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.colour)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.dateCreated)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.dateCreated)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.dateUpdated)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.dateUpdated)
-        </dd>
-    </dl>
-    
+    <div class="book"
+         onclick="window.location='/Pages/Index/@Html.DisplayNameFor(model => model.id)'";
+         style="background-color:#@Html.DisplayFor(model => model.colour)">
+        <h2>@Html.DisplayFor(model => model.title)</h2>
+    </div>
+
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>
-</div>
+
+
+@section CSS{
+    <style>
+    .book {
+        text-align: center;
+        border: 10px double #ffffff;
+        width: 10rem;
+        height: 15rem;
+        margin: 1rem;
+        color: #ffffff;
+        cursor: pointer;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+        padding: 1rem;
+        overflow: hidden;
+        display: inline-block;
+        margin: 0 auto;
+    }
+
+        .a {
+            text-decoration: none;
+        }
+
+        .book:hover {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .shelfGrid {
+            display: Grid;
+            grid-template-columns: auto auto auto auto;
+        }
+
+        .bookContainer {
+            text-align: center;
+            padding-left: auto;
+            padding-right: auto;
+        }
+
+        .fas-red {
+            color: #dc3545;
+        }
+
+        .fas-green {
+            color: #28a745;
+        }
+    </style>
+}

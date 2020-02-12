@@ -1,0 +1,58 @@
+﻿@model IEnumerable<DotJournal.Models.Page>
+
+@{
+    ViewData["Title"] = "Index";
+    var id = ViewData["id"];
+}
+<h1 class="my-5 pageTitle" style="border-bottom:5px solid #@Html.DisplayFor(modelItem => Model.First().book.colour)"> @Model.First().book.title</h1>
+<div class="row">
+    <div class="col-2 book-left">
+        <a style="background-color:#@Html.DisplayFor(modelItem => Model.First().book.colour);" asp-route-id="@id" asp-action="Create">Create New</a>
+        @foreach (var item in Model)
+        {
+        <hr />
+        <button onclick="articleHide(@Html.DisplayFor(modelItem => item.id))">@Html.DisplayFor(modelItem => item.title)</button><br />
+        }
+    </div>
+    <div class="col-9">
+        @foreach (var item in Model)
+        {
+        <article class="articleHide" id="article-@Html.DisplayFor(modelItem => item.id)">
+            <form asp-action="Edit">
+
+                <input type="hidden" asp-for="@item.id" />
+
+                <input class="articleTitle form-control" asp-for="@item.title" style="color:#@Html.DisplayFor(modelItem => item.book.colour);" />
+                <span asp-validation-for="@item.title" class="text-danger"></span>
+
+                <input type="hidden" asp-for="@item.pageNum" />
+
+                <h6 class="dates">Created on: @Html.DisplayFor(modelItem => item.dateCreated)</h6>
+                <h6 class="dates">Updated on: @Html.DisplayFor(modelItem => item.dateUpdated)</h6>
+
+                <textarea class="form-control" asp-for="@item.content"></textarea>
+                <span asp-validation-for="@item.content" class="text-danger"></span>
+
+                <input type="hidden" asp-for="@item.book" />
+
+                <input type="submit" value="Save" class="btn btn-primary" />
+
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </form>
+        </article>
+        }
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function articleHide(id) {
+            target = "article-" + id;
+            var divsToHide = document.getElementsByClassName("articleHide"); //divsToHide is an array
+            for (var i = 0; i < divsToHide.length; i++) {
+                divsToHide[i].style.display = "none"; // depending on what you're doing
+            }
+            document.getElementById(target).style.display = "block";
+        }
+    </script>
+}

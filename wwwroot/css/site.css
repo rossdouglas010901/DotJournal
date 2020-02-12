@@ -69,3 +69,80 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.articleHide {
+    display: none;
+}
+
+.book-left {
+    /*border-right: 1px solid #0f0f0f;*/
+    height: 100%;
+    padding-right: 1rem;
+    margin-right: 1rem;
+}
+
+.book-left button{
+    width: 100%;
+    border: none;
+    background-color: #ffffff;
+}
+
+.book-left a{
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+    padding: 0.5rem;
+    border-radius: 10px;
+}
+
+.book-left a:hover{
+    text-decoration: none;
+}
+
+.dates{
+    color: #808080;
+    font-weight: lighter;
+}
+
+.pageTitle{
+    width: 100%;
+    padding-bottom: 1rem;
+}
+
+textarea{
+    width:100% !important;
+    height: 1000px !important;
+    font-size: 100%;
+    border: none !important;
+    padding: 0 !important;
+}
+
+textarea:focus{
+    outline:0 !important;
+}
+
+.book{
+    text-align: center;
+    border: 10px groove #ffffff;
+    width: 10rem;
+    height: 15rem;
+    margin: 1rem;
+    color: #ffffff;
+    cursor: pointer;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.a{
+    text-decoration: none;
+}
+
+.book:hover{
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.shelfGrid{
+    display: Grid;
+    grid-template-columns: auto auto auto;
+}
